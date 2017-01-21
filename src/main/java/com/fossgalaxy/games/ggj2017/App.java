@@ -13,6 +13,10 @@ import java.awt.image.BufferStrategy;
  *
  */
 public class App implements Runnable, WindowListener {
+    private static final float UPDATE_DELTA = 1/50f;
+    private static final int VEL_ITER = 6;
+    private static final int POS_ITER = 3;
+
     private final Frame frame;
     private final Canvas canvas;
     private final World world;
@@ -54,6 +58,9 @@ public class App implements Runnable, WindowListener {
     public void run() {
         try {
             while (running) {
+
+                world.step(UPDATE_DELTA, VEL_ITER, POS_ITER);
+
                 BufferStrategy bs = canvas.getBufferStrategy();
                 Graphics g = bs.getDrawGraphics();
 
