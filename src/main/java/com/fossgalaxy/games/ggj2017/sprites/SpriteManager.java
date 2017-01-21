@@ -21,21 +21,41 @@ public class SpriteManager {
         int xIndOffset = arguments[6];
         int yIndOffset = arguments[7];
 
+        System.out.println(xOffset + ":" +  yOffset + ":" + xIndOffset + ":" + yIndOffset);
+
         BufferedImage[] sprites = new BufferedImage[rows * columns];
         System.out.println("Loading: " + sprites.length + " Images");
 
         for (int row = 0; row < rows; row++) {
             for (int column = 0; column < columns; column++) {
                 System.out.println("Reading: " + row + ":" + column);
+
+                int xStart = xOffset + (column * width) + (column * xIndOffset);
+                int yStart = yOffset + (row * height) + (row * yIndOffset);
+
+                System.out.println(xStart + ":" + yStart);
                 sprites[(row * columns) + column] = image.getSubimage(
-                        xOffset + (column * width) + (column * xIndOffset),
-                        yOffset + (row * height) + (row * yIndOffset),
+                        xStart,
+                        yStart,
                         width,
                         height
                 );
             }
         }
         return sprites;
+    }
+    private static BufferedImage[] stitchQuads(BufferedImage[] images, int width, int height){
+        BufferedImage[] output = new BufferedImage[images.length / 4];
+        int i = 0;
+        for(int x = 0; x < width; width += 2){
+            for(int y = 0; y < height; y+= 2){
+                output[i++] = stitchQuad(new BufferedImage[]{
+                        images[x], images[x+1],
+                        images[y], images[y+1]
+                });
+            }
+        }
+        return output;
     }
 
     private static BufferedImage stitchQuad(BufferedImage[] images) {
@@ -72,10 +92,13 @@ public class SpriteManager {
 
         BufferedImage all = ImageIO.read(SpriteManager.class.getResourceAsStream("/spritesheet.png"));
         System.out.println("Read the main image");
-        BufferedImage[] quad = getSet(all, new int[]{2, 2, 16, 16, 224, 0, 1, 1});
+        BufferedImage[] quad = getSet(all, new int[]{2, 2, 16, 16, 221, 0, 1, 1});
         System.out.println("Got the quad");
         BufferedImage ship = stitchQuad(quad);
         System.out.println("Stitched them");
+
+        BufferedImage[] set = getSet(all, new int[]{12, 12, 16, 16, 221, 0, 1, 1});
+
 
         frame.add(new JComponent() {
             @Override
