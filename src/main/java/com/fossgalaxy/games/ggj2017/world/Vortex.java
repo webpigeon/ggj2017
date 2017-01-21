@@ -17,7 +17,7 @@ public class Vortex extends Entity {
 
     public Vortex(Body body) {
         super(body);
-        this.inContact = new ArrayList<Body>();
+        this.inContact = new ArrayList<>();
         this.force = new Vec2(2.5f, 2.5f);
     }
 
