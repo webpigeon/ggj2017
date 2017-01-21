@@ -138,7 +138,7 @@ public class GameWorld {
         world.step(UPDATE_DELTA, VEL_ITER, POS_ITER);
 
         if (!player.isAlive()) {
-
+            //TODO swap scene
         }
     }
 

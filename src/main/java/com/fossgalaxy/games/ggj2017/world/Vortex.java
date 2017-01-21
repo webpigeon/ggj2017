@@ -13,6 +13,8 @@ import java.util.List;
  * Created by webpigeon on 21/01/17.
  */
 public class Vortex extends Entity {
+    private static final int ROTATION_FORCE = 100;
+
     private Vec2 force;
     private List<Body> inContact;
 
@@ -40,7 +42,7 @@ public class Vortex extends Entity {
             Vec2 normMag = new Vec2(force);
             normMag.normalize();
 
-            float forceMag = body.getMass();
+            float forceMag = force.length();
 
             Vec2 bodyPos = new Vec2(body.getPosition());
             Vec2 deltaPos = bodyPos.sub(getBody().getPosition());
@@ -57,7 +59,7 @@ public class Vortex extends Entity {
             float totalRotation = angle - nextAngle;
             while (totalRotation < Math.toRadians(-180)) totalRotation += Math.toRadians(360);
             while (totalRotation > Math.toRadians(180)) totalRotation -= Math.toRadians(360);
-            body.applyTorque(totalRotation < 0 ? -100 : 100);
+            body.applyTorque(totalRotation < 0 ? -ROTATION_FORCE : ROTATION_FORCE);
         }
     }
 

@@ -27,11 +27,8 @@ public class App implements Runnable, WindowListener {
     }
 
     public static void main( String[] args ) throws InterruptedException {
-        System.out.println("Hello World!");
-
         App app = new App();
         app.run();
-
     }
 
     public static Canvas buildView(Frame frame) {
