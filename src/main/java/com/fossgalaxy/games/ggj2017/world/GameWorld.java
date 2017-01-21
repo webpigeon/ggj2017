@@ -31,7 +31,7 @@ public class GameWorld {
     private final Vec2 windDir;
     private final Random random;
 
-    private Body player;
+    private Ship player;
 
     public GameWorld() {
         this(new Vec2(25, 25), new Vec2(800, 800));
@@ -103,7 +103,7 @@ public class GameWorld {
         IslandMaker.makeIslands(map, 0.25f, world);
     }
 
-    public void setPlayer(Body player) {
+    public void setPlayer(Ship player) {
         this.player = player;
     }
 
@@ -136,6 +136,10 @@ public class GameWorld {
         }
 
         world.step(UPDATE_DELTA, VEL_ITER, POS_ITER);
+
+        if (!player.isAlive()) {
+
+        }
     }
 
     public void debugRender(Graphics2D g2) {
@@ -170,7 +174,7 @@ public class GameWorld {
 
         Vec2 origin = REAL_ORIGIN;
         if (player != null) {
-            origin = new Vec2(player.getPosition());
+            origin = new Vec2(player.getBody().getPosition());
         }
 
         return new Vec2(

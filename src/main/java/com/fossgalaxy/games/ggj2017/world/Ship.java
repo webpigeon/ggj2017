@@ -11,6 +11,8 @@ import java.awt.geom.AffineTransform;
  * Created by webpigeon on 21/01/17.
  */
 public class Ship extends Entity {
+    private static final Color BROWN = new Color(51, 0, 0);
+
     public Ship(Body body) {
         super(body);
     }
@@ -25,11 +27,11 @@ public class Ship extends Entity {
         g2.translate(worldPos.x, worldPos.y);
         g2.rotate(-body.getAngle());
 
-        g2.setColor(Color.BLACK);
+        g2.setColor(BROWN);
         g2.fillRect((int) (-worldSize.x), (int) (-worldSize.y), (int) worldSize.x * 2, (int) worldSize.y * 2);
 
         g2.setColor(Color.WHITE);
-        g2.drawLine(0, 0, 0, -100);
+        g2.drawLine(0, 0, 0, 100);
 
         g2.setTransform(at);
 
@@ -42,7 +44,7 @@ public class Ship extends Entity {
 
         //health bar
         g2.setColor(Color.RED);
-        g2.fillRect((int) worldPos.x - maxHealth/2, (int) (worldPos.y + worldSize.y), maxHealth, 5);
+        g2.fillRect((int) worldPos.x - maxHealth / 2, (int) (worldPos.y + worldSize.y), maxHealth, 5);
 
         g2.setColor(Color.GREEN);
         g2.fillRect((int) worldPos.x - maxHealth / 2, (int) (worldPos.y + worldSize.y), health, 5);
@@ -61,5 +63,9 @@ public class Ship extends Entity {
                 System.out.println("player is dead");
             }
         }
+    }
+
+    public boolean isAlive() {
+        return health >= 0;
     }
 }
