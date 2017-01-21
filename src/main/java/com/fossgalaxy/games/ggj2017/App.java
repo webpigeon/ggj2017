@@ -62,7 +62,7 @@ public class App implements Runnable, WindowListener {
                 //g.scale(2, 2);
 
                 world.render(g);
-                //world.debugRender(g);
+                world.debugRender(g);
 
                 g.dispose();
 

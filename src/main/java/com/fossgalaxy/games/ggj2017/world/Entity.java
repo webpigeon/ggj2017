@@ -53,24 +53,6 @@ public class Entity {
     }
 
     public void draw(Graphics2D g2, GameWorld world) {
-
-        AffineTransform at = g2.getTransform();
-
-        Vec2 worldPos = world.translateWorldToScreen(body.getPosition());
-        Vec2 worldSize = world.scaleWorldToScreen(new Vec2(1f, 1.5f));
-
-        g2.translate(worldPos.x, worldPos.y);
-        g2.rotate(-body.getAngle());
-
-        g2.setColor(Color.BLACK);
-        g2.fillRect((int) (-worldSize.x), (int) (-worldSize.y), (int) worldSize.x * 2, (int) worldSize.y * 2);
-
-        g2.setColor(Color.WHITE);
-        g2.drawLine(0, 0, 0, -100);
-
-        g2.setTransform(at);
-
-        renderHealth(g2, world);
     }
 
     protected void renderHealth(Graphics2D g2, GameWorld world) {

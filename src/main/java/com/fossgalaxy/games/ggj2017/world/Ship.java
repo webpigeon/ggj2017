@@ -12,6 +12,8 @@ import java.awt.geom.AffineTransform;
  */
 public class Ship extends Entity {
     private static final Color BROWN = new Color(51, 0, 0);
+    private float windDirection = (float)(Math.PI / 2 + Math.PI);
+    private float windForce = 100;
 
     public Ship(Body body) {
         super(body);
@@ -25,17 +27,40 @@ public class Ship extends Entity {
         Vec2 worldSize = world.scaleWorldToScreen(new Vec2(1f, 1.5f));
 
         g2.translate(worldPos.x, worldPos.y);
+        renderWindDirection(g2);
+
         g2.rotate(-body.getAngle());
 
         g2.setColor(BROWN);
         g2.fillRect((int) (-worldSize.x), (int) (-worldSize.y), (int) worldSize.x * 2, (int) worldSize.y * 2);
 
-        g2.setColor(Color.WHITE);
-        g2.drawLine(0, 0, 0, 100);
+        /*g2.setColor(Color.WHITE);
+        g2.drawLine(0, 0, 0, 100);*/
 
         g2.setTransform(at);
 
         renderHealth(g2, world);
+
+    }
+
+    public void setWindAngle(float wind) {
+        this.windDirection = wind;
+    }
+
+    public Vec2 getWindVec() {
+        return new Vec2(
+                (float)(windForce * Math.cos(windDirection)),
+                (float)(windForce * Math.sin(windDirection))
+        );
+    }
+
+    protected void renderWindDirection(Graphics2D g) {
+
+        int x = (int)(windForce * Math.cos(windDirection));
+        int y = (int)(windForce * Math.sin(windDirection));
+
+        g.setColor(Color.ORANGE);
+        g.drawLine(0, 0, x, y);
     }
 
     protected void renderHealth(Graphics2D g2, GameWorld world) {

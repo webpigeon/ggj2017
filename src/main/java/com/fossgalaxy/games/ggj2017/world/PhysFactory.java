@@ -67,7 +67,7 @@ public class PhysFactory {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.isSensor = true;
         CircleShape shape = new CircleShape();
-        shape.m_radius = 0.5f;
+        shape.m_radius = Vortex.RANGE;
         fixtureDef.shape = shape;
 
         body.createFixture(fixtureDef);
