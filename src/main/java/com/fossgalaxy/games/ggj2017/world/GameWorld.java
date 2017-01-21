@@ -17,9 +17,17 @@ public class GameWorld {
     private static final int POS_ITER = 3;
     private final World world;
 
-    public GameWorld() {
-        this.world = new World(new Vec2(0, 0));
+    private final Vec2 dimensions;
+    private final Vec2 screenDimensions;
 
+    public GameWorld() {
+        this(new Vec2(100, 100), new Vec2(800, 600));
+    }
+
+    public GameWorld(Vec2 dimensions, Vec2 screenDimensions){
+        this.world = new World(new Vec2(0, 0));
+        this.dimensions = dimensions;
+        this.screenDimensions = screenDimensions;
         PhysFactory.buildBody(world);
     }
 
@@ -29,17 +37,17 @@ public class GameWorld {
 
     public void debugRender(Graphics2D g2) {
         g2.setBackground(Color.BLACK);
-        g2.fillRect(0, 0, 800, 600);
+        g2.fillRect(0, 0, (int)screenDimensions.x, (int) screenDimensions.y);
 
         Body body = world.getBodyList();
 
         while(body != null) {
-
-            System.out.println(body.getFixtureList().getAABB(0));
-
             Fixture fix = body.getFixtureList();
             while (true) {
                 AABB aabb = fix.getAABB(0);
+                Vec2 aabbLower = translateWorldToScreen(aabb.lowerBound);
+                Vec2 aabbDimensions = scaleWorldToScreen(aabb.upperBound.sub(aabb.lowerBound));
+
                 g2.setColor(Color.RED);
                 g2.fillRect(
                         (int) aabb.lowerBound.x,
@@ -53,6 +61,34 @@ public class GameWorld {
 
             body = body.getNext();
         }
+    }
+
+    public Vec2 translateWorldToScreen(Vec2 input) {
+        return new Vec2(
+                ((input.x * screenDimensions.x) / dimensions.x),
+                (screenDimensions.y - ((input.y * screenDimensions.y) / dimensions.y))
+        );
+    }
+
+    public Vec2 translateScreenToWorld(Vec2 input) {
+        return new Vec2(
+                ((input.x * dimensions.x) / screenDimensions.x),
+                (((screenDimensions.y - input.y) * dimensions.y) / screenDimensions.y)
+        );
+    }
+
+    public Vec2 scaleScreenToWorld(Vec2 input) {
+        return new Vec2(
+                ((input.x * dimensions.x) / screenDimensions.x),
+                ((input.y * dimensions.y) / screenDimensions.y)
+        );
+    }
+
+    public Vec2 scaleWorldToScreen(Vec2 input) {
+        return new Vec2(
+                ((input.x * screenDimensions.x) / dimensions.x),
+                ((input.y * screenDimensions.y) / dimensions.y)
+        );
     }
 
 }

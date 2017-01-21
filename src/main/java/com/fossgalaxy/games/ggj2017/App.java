@@ -1,8 +1,6 @@
 package com.fossgalaxy.games.ggj2017;
 
 import com.fossgalaxy.games.ggj2017.world.GameWorld;
-import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.World;
 
 import java.awt.*;
 import java.awt.event.WindowEvent;
