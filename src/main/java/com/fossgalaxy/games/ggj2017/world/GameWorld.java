@@ -62,7 +62,7 @@ public class GameWorld {
 
     private void addIslands() {
         boolean[][] map = MapGenerator.generate((int) dimensions.x, (int) dimensions.y, 1);
-        IslandMaker.makeIslands(map, 0.25f, world);
+        IslandMaker.makeIslandsRunLength(map, 0.25f, world);
     }
 
     public void setPlayer(Body player) {

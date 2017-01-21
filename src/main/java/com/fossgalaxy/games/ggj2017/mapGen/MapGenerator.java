@@ -51,7 +51,9 @@ public class MapGenerator {
         final boolean[][] map = generate(width / scale, height / scale, 1);
 
         ArrayList<Body> bodies = IslandMaker.makeIslands(map, 1, new World(new Vec2(0, 0)));
-        System.out.println(bodies.size());
+        System.out.println(bodies.size() + ":" + getMass(bodies));
+        bodies = IslandMaker.makeIslandsRunLength(map, 1, new World(new Vec2(0, 0)));
+        System.out.println(bodies.size() + ":" + getMass(bodies));
         frame.add(new JComponent() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -67,5 +69,15 @@ public class MapGenerator {
 
         frame.pack();
         frame.setVisible(true);
+    }
+
+//    private static double getMass(ArrayList<Body> bodies){
+//        return bodies.stream().map(Body::getMass).mapToDouble(Float::doubleValue).sum();
+//    }
+
+    private static float getMass(ArrayList<Body> bodies){
+        float sum = 0;
+        for(Body body : bodies) sum += body.getMass();
+        return sum;
     }
 }
