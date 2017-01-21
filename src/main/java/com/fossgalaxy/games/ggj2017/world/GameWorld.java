@@ -9,6 +9,7 @@ import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.World;
 
 import java.awt.*;
+import java.util.Random;
 
 /**
  * Created by webpigeon on 21/01/17.
@@ -44,20 +45,32 @@ public class GameWorld {
 
         player = PhysFactory.buildWoodenBoat(world);
 
-        Vec2 windDirection = new Vec2(0.5f, 0.5f);
-        //Random random = new Random();
-
-        for (int x=0; x<150; x += 2) {
-            for (int y=0; y<150; y += 2) {
-                //PhysFactory.buildVortex(world, x, y, new Vec2((float)random.nextDouble() - 0.5f, (float)random.nextDouble() - 0.5f));
-                PhysFactory.buildVortex(world, x, y, windDirection);
-            }
-        }
+        buildField();
 
         this.manager = new CollisionManager();
         world.setContactListener(manager);
 
         addIslands();
+    }
+
+    private void buildRandomField() {
+        Random random = new Random();
+
+        for (int x=0; x<150; x += 2) {
+            for (int y=0; y<150; y += 2) {
+                PhysFactory.buildVortex(world, x, y, new Vec2((float)random.nextDouble() - 0.5f, (float)random.nextDouble() - 0.5f));
+            }
+        }
+    }
+
+    private void buildField() {
+        Vec2 windDirection = new Vec2(0.5f, 0.5f);
+
+        for (int x=0; x<150; x += 2) {
+            for (int y=0; y<150; y += 2) {
+                PhysFactory.buildVortex(world, x, y, windDirection);
+            }
+        }
     }
 
     private void addIslands() {
