@@ -62,7 +62,8 @@ public class App implements Runnable, WindowListener {
                 //g.drawRect(0, 0, 10, 10);
                 //g.scale(2, 2);
 
-                world.debugRender(g);
+                world.render(g);
+                //world.debugRender(g);
 
                 g.dispose();
 

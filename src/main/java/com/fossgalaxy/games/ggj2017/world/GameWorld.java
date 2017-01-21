@@ -13,6 +13,8 @@ import java.util.Random;
  * Created by webpigeon on 21/01/17.
  */
 public class GameWorld {
+    private static final Vec2 REAL_ORIGIN = new Vec2();
+
     private static final float UPDATE_DELTA = 1/60f;
     private static final int VEL_ITER = 6;
     private static final int POS_ITER = 3;
@@ -23,6 +25,8 @@ public class GameWorld {
     private final Vec2 dimensions;
     private final Vec2 screenDimensions;
 
+    private Body player;
+
     public GameWorld() {
         this(new Vec2(25, 25), new Vec2(800, 800));
     }
@@ -31,20 +35,31 @@ public class GameWorld {
         this.world = new World(new Vec2(0, 0));
         this.dimensions = dimensions;
         this.screenDimensions = screenDimensions;
-        PhysFactory.buildBody(world);
 
+        //PhysFactory.buildBarrier(world, 0, 0, 150, 1);
+        PhysFactory.buildBarrier(world, 151, -1, 1, 150);
+        PhysFactory.buildBarrier(world, -1, -1, 1, 150);
+        PhysFactory.buildBarrier(world, -1, -1, 150, 1);
+        PhysFactory.buildBarrier(world, 151, -1, 150, 1);
 
-        Vec2 windDirection = new Vec2(2.5f, 2.5f);
-        Random random = new Random();
+        player = PhysFactory.buildBody(world);
 
-        for (int x=0; x<25; x++) {
-            for (int y=0; y<25; y++) {
-                PhysFactory.buildVortex(world, x, y, new Vec2((float)random.nextDouble() - 0.5f, (float)random.nextDouble() - 0.5f));
+        Vec2 windDirection = new Vec2(0.5f, 0.5f);
+        //Random random = new Random();
+
+        for (int x=0; x<150; x += 2) {
+            for (int y=0; y<150; y += 2) {
+                //PhysFactory.buildVortex(world, x, y, new Vec2((float)random.nextDouble() - 0.5f, (float)random.nextDouble() - 0.5f));
+                PhysFactory.buildVortex(world, x, y, windDirection);
             }
         }
 
         this.manager = new CollisionManager();
         world.setContactListener(manager);
+    }
+
+    public void setPlayer(Body player) {
+        this.player = player;
     }
 
     public void update() {
@@ -105,9 +120,14 @@ public class GameWorld {
         float ratioX = screenDimensions.x / dimensions.x;
         float ratioY = screenDimensions.y / dimensions.y;
 
+        Vec2 origin = REAL_ORIGIN;
+        if (player != null) {
+            origin = new Vec2(player.getPosition());
+        }
+
         return new Vec2(
-                input.x * ratioX,
-                input.y * ratioY
+                (input.x - origin.x) * ratioX + (screenDimensions.x / 2),
+                (input.y - origin.y) * ratioY + (screenDimensions.y / 2)
         );
     }
 
@@ -132,4 +152,21 @@ public class GameWorld {
         );
     }
 
+    public void render(Graphics2D g2) {
+        g2.setBackground(Color.BLACK);
+        g2.fillRect(0, 0, (int) screenDimensions.x, (int) screenDimensions.y);
+
+        //g2.translate(10, 10);
+
+        Body body = world.getBodyList();
+
+        while(body != null) {
+            Entity entity = (Entity)body.getUserData();
+            if (entity != null) {
+                entity.draw(g2, this);
+            }
+
+            body = body.getNext();
+        }
+    }
 }

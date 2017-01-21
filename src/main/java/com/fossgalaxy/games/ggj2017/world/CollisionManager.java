@@ -24,8 +24,8 @@ public class CollisionManager implements ContactListener {
             return;
         }
 
-        entityA.onCollide(entityB, contact.getManifold());
-        entityB.onCollide(entityA, contact.getManifold());
+        entityA.onCollide(entityB, contact);
+        entityB.onCollide(entityA, contact);
     }
 
     public void endContact(Contact contact) {
@@ -41,8 +41,8 @@ public class CollisionManager implements ContactListener {
             return;
         }
 
-        entityA.onCollideExit(entityB, contact.getManifold());
-        entityB.onCollideExit(entityA, contact.getManifold());
+        entityA.onCollideExit(entityB, contact);
+        entityB.onCollideExit(entityA, contact);
     }
 
     public void preSolve(Contact contact, Manifold oldManifold) {

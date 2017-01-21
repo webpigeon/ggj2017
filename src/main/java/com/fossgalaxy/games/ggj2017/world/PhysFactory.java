@@ -14,6 +14,7 @@ public class PhysFactory {
 
         BodyDef def = new BodyDef();
         def.position = new Vec2(10,10);
+        def.bullet = true;
 
         Body body = world.createBody(def);
         body.setType(BodyType.DYNAMIC);
@@ -21,12 +22,33 @@ public class PhysFactory {
         FixtureDef fixDef = new FixtureDef();
         fixDef.friction = 0.8f;
         fixDef.restitution = 0.8f;
+        fixDef.density = 1;
         PolygonShape ps = new PolygonShape();
-        ps.setAsBox(2f, 3f);
+        ps.setAsBox(1f, 1.5f);
         fixDef.shape = ps;
         body.createFixture(fixDef);
 
         body.setUserData(new Entity(body));
+
+        return body;
+    }
+
+    public static Body buildBarrier(World world, int x, int y, int width, int height) {
+        BodyDef def = new BodyDef();
+        def.position = new Vec2(x+width/2,y+height/2);
+
+        Body body = world.createBody(def);
+        body.setType(BodyType.STATIC);
+
+        FixtureDef fixDef = new FixtureDef();
+        fixDef.friction = 0.8f;
+        fixDef.restitution = 0.8f;
+        PolygonShape ps = new PolygonShape();
+        ps.setAsBox(width/2f, height/2f);
+        fixDef.shape = ps;
+        body.createFixture(fixDef);
+
+       // body.setUserData(new Entity(body));
 
         return body;
     }
