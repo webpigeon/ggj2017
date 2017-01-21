@@ -54,12 +54,14 @@ public class PhysFactory {
         return body;
     }
 
-    public static void buildVortex(World world, int x, int y, Vec2 force) {
+    public static Vortex buildVortex(World world, int x, int y, Vec2 force) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.position = new Vec2(x,y);
 
         Body body = world.createBody(bodyDef);
-        body.setUserData(new Vortex(body, force));
+        Vortex vortex = new Vortex(body, force);
+
+        body.setUserData(vortex);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.isSensor = true;
@@ -68,5 +70,7 @@ public class PhysFactory {
         fixtureDef.shape = shape;
 
         body.createFixture(fixtureDef);
+
+        return vortex;
     }
 }

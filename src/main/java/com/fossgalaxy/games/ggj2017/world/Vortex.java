@@ -72,4 +72,8 @@ public class Vortex extends Entity {
         super.onCollide(other, contact);
         inContact.remove(other.getBody());
     }
+
+    public void setForce(float x, float y) {
+        force.set(x, y);
+    }
 }

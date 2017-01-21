@@ -19,12 +19,17 @@ public class GameWorld {
     private static final float UPDATE_DELTA = 1/60f;
     private static final int VEL_ITER = 6;
     private static final int POS_ITER = 3;
+    private static final float WIND_DELTA = 0.1f;
 
     private final World world;
     private final CollisionManager manager;
 
     private final Vec2 dimensions;
     private final Vec2 screenDimensions;
+
+    private final Vortex[][] wind;
+    private final Vec2 windDir;
+    private final Random random;
 
     private Body player;
 
@@ -36,6 +41,9 @@ public class GameWorld {
         this.world = new World(new Vec2(0, 0));
         this.dimensions = dimensions;
         this.screenDimensions = screenDimensions;
+        this.wind = new Vortex[150][150];
+        this.windDir = new Vec2(0,0);
+        this.random = new Random();
 
         //PhysFactory.buildBarrier(world, 0, 0, 150, 1);
         PhysFactory.buildBarrier(world, 151, -1, 1, 150);
@@ -45,7 +53,7 @@ public class GameWorld {
 
         player = PhysFactory.buildWoodenBoat(world);
 
-        buildField();
+        buildEmptyField();
 
         this.manager = new CollisionManager();
         world.setContactListener(manager);
@@ -56,19 +64,36 @@ public class GameWorld {
     private void buildRandomField() {
         Random random = new Random();
 
-        for (int x=0; x<150; x += 2) {
-            for (int y=0; y<150; y += 2) {
-                PhysFactory.buildVortex(world, x, y, new Vec2((float)random.nextDouble() - 0.5f, (float)random.nextDouble() - 0.5f));
+        for (int x=0; x<wind.length; x += 2) {
+            for (int y=0; y<wind[x].length; y += 2) {
+                PhysFactory.buildVortex(world, x, y, new Vec2((float) random.nextDouble() - 0.5f, (float) random.nextDouble() - 0.5f));
             }
         }
     }
 
-    private void buildField() {
+    private void changeWind(float windX, float windY) {
+        for (int x=0; x<wind.length; x += 2) {
+            for (int y=0; y<wind[x].length; y += 2) {
+                wind[x][y].setForce(windX, windY);
+            }
+        }
+        windDir.set(windX, windY);
+    }
+
+    private void buildEmptyField() {
+        for (int x=0; x<wind.length; x += 2) {
+            for (int y=0; y<wind[x].length; y += 2) {
+                wind[x][y] = PhysFactory.buildVortex(world, x, y, new Vec2(windDir));
+            }
+        }
+    }
+
+    private void buildStaticField() {
         Vec2 windDirection = new Vec2(0.5f, 0.5f);
 
-        for (int x=0; x<150; x += 2) {
-            for (int y=0; y<150; y += 2) {
-                PhysFactory.buildVortex(world, x, y, windDirection);
+        for (int x=0; x<wind.length; x += 2) {
+            for (int y=0; y<wind[x].length; y += 2) {
+                wind[x][y] = PhysFactory.buildVortex(world, x, y, windDirection);
             }
         }
     }
@@ -84,6 +109,12 @@ public class GameWorld {
 
     public void update() {
         world.clearForces();
+
+        windDir.x += WIND_DELTA * random.nextGaussian();
+        windDir.y += WIND_DELTA * random.nextGaussian();
+        windDir.normalize();
+
+        changeWind(windDir.x, windDir.y);
 
         Body body = world.getBodyList();
         while (body != null) {
