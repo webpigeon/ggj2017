@@ -7,12 +7,15 @@ import org.jbox2d.dynamics.*;
 
 import java.util.ArrayList;
 
+import com.fossgalaxy.games.ggj2017.world.Entity;
+import com.fossgalaxy.games.ggj2017.world.Island;
+
 /**
  * Created by newowner on 21/01/2017.
  */
 public class IslandMaker {
 
-    public static ArrayList<Body> makeIslands(boolean[][] map, int numPerMeter, World world) {
+    public static ArrayList<Body> makeIslands(boolean[][] map, float numPerMeter, World world) {
         ArrayList<Body> bodies = new ArrayList<Body>();
 
         for (int x = 0; x < map.length; x++) {
@@ -32,16 +35,22 @@ public class IslandMaker {
         return bodies;
     }
 
-    private static Body createBody(int x, int y, int w, int h, World world) {
+    private static Body createBody(float x, float y, float w, float h, World world) {
         BodyDef def = new BodyDef();
+        def.position = new Vec2(x, y);
         def.type = BodyType.STATIC;
+
+
         Body body = world.createBody(def);
         FixtureDef fixtureDef = new FixtureDef();
         PolygonShape ps = new PolygonShape();
-        ps.setAsBox(h / 2f, w / 2f, new Vec2(x, y), 0);
+        ps.setAsBox(h / 2f, w / 2f);
         fixtureDef.shape = ps;
+        fixtureDef.restitution = 0;
 
         body.createFixture(fixtureDef);
+
+        body.setUserData(new Island(body, w, h));
         return body;
     }
 }

@@ -9,7 +9,6 @@ import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.World;
 
 import java.awt.*;
-import java.util.Random;
 
 /**
  * Created by webpigeon on 21/01/17.
@@ -43,7 +42,7 @@ public class GameWorld {
         PhysFactory.buildBarrier(world, -1, -1, 150, 1);
         PhysFactory.buildBarrier(world, 151, -1, 150, 1);
 
-        player = PhysFactory.buildBody(world);
+        player = PhysFactory.buildWoodenBoat(world);
 
         Vec2 windDirection = new Vec2(0.5f, 0.5f);
         //Random random = new Random();
@@ -63,7 +62,7 @@ public class GameWorld {
 
     private void addIslands() {
         boolean[][] map = MapGenerator.generate((int) dimensions.x, (int) dimensions.y, 1);
-        IslandMaker.makeIslands(map, 1, world);
+        IslandMaker.makeIslands(map, 0.25f, world);
     }
 
     public void setPlayer(Body player) {
