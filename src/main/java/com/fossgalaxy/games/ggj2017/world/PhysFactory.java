@@ -13,7 +13,7 @@ public class PhysFactory {
     public static Body buildBody(World world) {
 
         BodyDef def = new BodyDef();
-        def.position = new Vec2(0,0);
+        def.position = new Vec2(10,10);
 
         Body body = world.createBody(def);
         body.setType(BodyType.DYNAMIC);
@@ -21,7 +21,7 @@ public class PhysFactory {
         FixtureDef fixDef = new FixtureDef();
         fixDef.friction = 0.99f;
         PolygonShape ps = new PolygonShape();
-        ps.setAsBox(5f, 2f);
+        ps.setAsBox(10f, 10f);
         fixDef.shape = ps;
         body.createFixture(fixDef);
 
