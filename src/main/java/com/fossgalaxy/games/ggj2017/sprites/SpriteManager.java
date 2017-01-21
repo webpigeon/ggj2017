@@ -21,7 +21,7 @@ public class SpriteManager {
         int xIndOffset = arguments[6];
         int yIndOffset = arguments[7];
 
-        System.out.println(xOffset + ":" +  yOffset + ":" + xIndOffset + ":" + yIndOffset);
+        System.out.println(xOffset + ":" + yOffset + ":" + xIndOffset + ":" + yIndOffset);
 
         BufferedImage[] sprites = new BufferedImage[rows * columns];
         System.out.println("Loading: " + sprites.length + " Images");
@@ -44,14 +44,16 @@ public class SpriteManager {
         }
         return sprites;
     }
-    private static BufferedImage[] stitchQuads(BufferedImage[] images, int width, int height){
-        BufferedImage[] output = new BufferedImage[images.length / 4];
+
+    private static BufferedImage[][] stitchQuads(BufferedImage[] images, int width, int height) {
+        BufferedImage[][] output = new BufferedImage[width][height];
         int i = 0;
-        for(int x = 0; x < width; width += 2){
-            for(int y = 0; y < height; y+= 2){
-                output[i++] = stitchQuad(new BufferedImage[]{
-                        images[x], images[x+1],
-                        images[y], images[y+1]
+        for (int x = 0; x < width; x += 1) {
+            for (int y = 0; y < height; y += 1) {
+                System.out.println("i: " + i + "x: " + x + "y: " + y);
+                output[x][y] = stitchQuad(new BufferedImage[]{
+                        images[(x * 2)], images[(x * 2) + 1],
+                        images[(y * 2)], images[(y * 2) + 1]
                 });
             }
         }
@@ -69,9 +71,9 @@ public class SpriteManager {
         Graphics graphics = output.createGraphics();
 
         graphics.drawImage(images[0], 0, 0, null);
-        graphics.drawImage(images[1], width / 2 , 0, null);
+        graphics.drawImage(images[1], width / 2, 0, null);
         graphics.drawImage(images[2], 0, height / 2, null);
-        graphics.drawImage(images[3], width / 2 , height / 2, null);
+        graphics.drawImage(images[3], width / 2, height / 2, null);
         graphics.dispose();
 
         return output;
@@ -98,18 +100,27 @@ public class SpriteManager {
         System.out.println("Stitched them");
 
         BufferedImage[] set = getSet(all, new int[]{12, 12, 16, 16, 221, 0, 1, 1});
-
-
+        BufferedImage[][] setStitched = stitchQuads(set, 6, 6);
         frame.add(new JComponent() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 Graphics2D g2 = (Graphics2D) g;
                 g2.scale(10, 10);
-                g2.drawImage(ship, 0, 0, null);
+                int x = 0;
+                for (BufferedImage[] imageRow : setStitched) {
+                    int y = 0;
+                    for (BufferedImage image : imageRow) {
+                        if (image != null) {
+                            g2.drawImage(image, x, y, null);
+                            x += image.getWidth();
+                        } else {
+                            System.out.println("Was Null");
+                        }
+                    }
+                    y += imageRow[0].getHeight();
+                }
                 g2.scale(0.1, 0.1);
-                System.out.println("Here3");
-
             }
         });
 
