@@ -100,7 +100,7 @@ public class GameWorld {
 
     private void addIslands() {
         boolean[][] map = MapGenerator.generate((int) dimensions.x, (int) dimensions.y, 1);
-        IslandMaker.makeIslandsRunLength(map, 0.25f, world);
+        IslandMaker.makeIslands(map, 0.25f, world);
     }
 
     public void setPlayer(Body player) {
@@ -139,9 +139,6 @@ public class GameWorld {
     }
 
     public void debugRender(Graphics2D g2) {
-        g2.setBackground(Color.BLACK);
-        g2.fillRect(0, 0, (int) screenDimensions.x, (int) screenDimensions.y);
-
         //g2.translate(10, 10);
 
         Body body = world.getBodyList();

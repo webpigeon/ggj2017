@@ -29,7 +29,7 @@ public class PhysFactory {
         fixDef.restitution = 0; //boats are not made of rubber
         body.createFixture(fixDef);
 
-        body.setUserData(new Entity(body));
+        body.setUserData(new Ship(body));
 
         return body;
     }
@@ -49,7 +49,7 @@ public class PhysFactory {
         fixDef.shape = ps;
         body.createFixture(fixDef);
 
-       // body.setUserData(new Entity(body));
+       body.setUserData(new Wall(body));
 
         return body;
     }
