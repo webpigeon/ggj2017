@@ -1,5 +1,6 @@
 package com.fossgalaxy.games.ggj2017;
 
+import com.fossgalaxy.games.ggj2017.controllers.WindController;
 import com.fossgalaxy.games.ggj2017.world.GameWorld;
 
 import java.awt.*;
@@ -22,6 +23,7 @@ public class App implements Runnable, WindowListener {
         frame.addWindowListener(this);
         this.canvas = buildView(frame);
         this.world = new GameWorld();
+        canvas.addMouseListener(new WindController(this.world));
     }
 
     public static void main( String[] args ) throws InterruptedException {

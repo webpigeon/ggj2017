@@ -71,7 +71,7 @@ public class GameWorld {
         }
     }
 
-    private void changeWind(float windX, float windY) {
+    public void changeWind(float windX, float windY) {
         for (int x=0; x<wind.length; x += 2) {
             for (int y=0; y<wind[x].length; y += 2) {
                 wind[x][y].setForce(windX, windY);
@@ -110,11 +110,11 @@ public class GameWorld {
     public void update() {
         world.clearForces();
 
-        windDir.x += WIND_DELTA * random.nextGaussian();
-        windDir.y += WIND_DELTA * random.nextGaussian();
-        windDir.normalize();
+//        windDir.x += WIND_DELTA * random.nextGaussian();
+//        windDir.y += WIND_DELTA * random.nextGaussian();
+//        windDir.normalize();
 
-        changeWind(windDir.x, windDir.y);
+//        changeWind(windDir.x, windDir.y);
 
         Body body = world.getBodyList();
         while (body != null) {
