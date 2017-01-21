@@ -1,4 +1,4 @@
-package com.fossgalaxy.games.ggj2017.noise;
+package com.fossgalaxy.games.ggj2017.mapGen.noise;
 
 /**
  * Created by Piers on 21/01/2017.

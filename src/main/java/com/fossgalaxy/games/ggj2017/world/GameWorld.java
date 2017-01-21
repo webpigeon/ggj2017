@@ -56,8 +56,6 @@ public class GameWorld {
         g2.setBackground(Color.BLACK);
         g2.fillRect(0, 0, (int)screenDimensions.x, (int) screenDimensions.y);
 
-        g2.translate(10, 10);
-
         Body body = world.getBodyList();
 
         while(body != null) {
