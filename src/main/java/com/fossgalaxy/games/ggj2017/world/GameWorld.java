@@ -30,12 +30,23 @@ public class GameWorld {
     }
 
     public void update() {
+        Body body = world.getBodyList();
+        while (body != null) {
+            Entity entity = (Entity)body.getUserData();
+            if (entity != null) {
+                entity.apply(world);
+            }
+            body = body.getNext();
+        }
+
         world.step(UPDATE_DELTA, VEL_ITER, POS_ITER);
     }
 
     public void debugRender(Graphics2D g2) {
         g2.setBackground(Color.BLACK);
         g2.fillRect(0, 0, 800, 600);
+
+        g2.translate(10, 10);
 
         Body body = world.getBodyList();
 
@@ -44,17 +55,16 @@ public class GameWorld {
             System.out.println(body.getFixtureList().getAABB(0));
 
             Fixture fix = body.getFixtureList();
-            while (true) {
+            while (fix != null) {
                 AABB aabb = fix.getAABB(0);
                 g2.setColor(Color.RED);
-                g2.fillRect(
+                g2.drawRect(
                         (int) aabb.lowerBound.x,
                         (int) aabb.lowerBound.y,
                         (int) aabb.upperBound.sub(aabb.lowerBound).x,
                         (int) aabb.upperBound.sub(aabb.lowerBound).y
                 );
                 fix = fix.getNext();
-                if (fix == null) break;
             }
 
             body = body.getNext();

@@ -5,6 +5,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,10 +17,11 @@ public class Vortex extends Entity {
 
     public Vortex(Body body) {
         super(body);
+        this.inContact = new ArrayList<Body>();
+        this.force = new Vec2(5, 5);
     }
 
     public void apply(World world) {
-
 
         for (Body body : inContact) {
             Vec2 normMag = new Vec2(force);

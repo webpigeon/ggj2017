@@ -19,10 +19,13 @@ public class PhysFactory {
         body.setType(BodyType.DYNAMIC);
 
         FixtureDef fixDef = new FixtureDef();
+        fixDef.friction = 0.99f;
         PolygonShape ps = new PolygonShape();
         ps.setAsBox(5f, 2f);
         fixDef.shape = ps;
         body.createFixture(fixDef);
+
+        body.setUserData(new Entity(body));
 
         return body;
     }
@@ -32,7 +35,6 @@ public class PhysFactory {
         bodyDef.position = new Vec2(0,0);
 
         Body body = world.createBody(bodyDef);
-        body.setType(BodyType.STATIC);
         body.setUserData(new Vortex(body));
 
         FixtureDef fixtureDef = new FixtureDef();
@@ -42,6 +44,5 @@ public class PhysFactory {
         fixtureDef.shape = shape;
 
         body.createFixture(fixtureDef);
-
     }
 }

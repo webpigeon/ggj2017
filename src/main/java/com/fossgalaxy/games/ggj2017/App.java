@@ -48,6 +48,10 @@ public class App implements Runnable, WindowListener {
 
 
     public void run() {
+        long lastFPS = System.currentTimeMillis();
+        int frames = 0;
+
+
         try {
             while (running) {
 
@@ -66,6 +70,13 @@ public class App implements Runnable, WindowListener {
                 g.dispose();
 
                 bs.show();
+                frames++;
+
+                long currentTime = System.currentTimeMillis();
+                if (lastFPS - currentTime > 1000) {
+                    System.out.println(frames);
+                    lastFPS = currentTime;
+                }
 
                 Thread.sleep(1000 / 50);
             }
