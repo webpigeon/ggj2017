@@ -33,7 +33,7 @@ public class App implements Runnable, WindowListener {
     }
 
     public static Canvas buildView(Frame frame) {
-        frame.setPreferredSize(new Dimension(800, 600));
+        frame.setPreferredSize(new Dimension(800, 800));
         Canvas canvas = new Canvas();
 
         frame.add(canvas);
@@ -58,10 +58,9 @@ public class App implements Runnable, WindowListener {
                 BufferStrategy bs = canvas.getBufferStrategy();
                 Graphics2D g = (Graphics2D)bs.getDrawGraphics();
 
-                g.setColor(Color.BLACK);
+                g.setColor(new Color(99, 197, 207));
                 //g.drawRect(0, 0, 10, 10);
-                //g.scale(25, 25);
-
+                //g.scale(2, 2);
 
                 world.debugRender(g);
 
@@ -77,7 +76,7 @@ public class App implements Runnable, WindowListener {
                     frames = 0;
                 }
 
-                Thread.sleep(1000 / 50);
+                Thread.sleep(1000 / 60);
             }
         } catch (InterruptedException ex) {
             ex.printStackTrace();

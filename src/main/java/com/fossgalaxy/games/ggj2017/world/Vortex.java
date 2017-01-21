@@ -15,10 +15,10 @@ public class Vortex extends Entity {
     private Vec2 force;
     private List<Body> inContact;
 
-    public Vortex(Body body) {
+    public Vortex(Body body, Vec2 force) {
         super(body);
         this.inContact = new ArrayList<>();
-        this.force = new Vec2(2.5f, 2.5f);
+        this.force = force;
     }
 
     public void apply(World world) {

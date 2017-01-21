@@ -22,7 +22,7 @@ public class PhysFactory {
         fixDef.friction = 0.8f;
         fixDef.restitution = 0.8f;
         PolygonShape ps = new PolygonShape();
-        ps.setAsBox(10f, 10f);
+        ps.setAsBox(2f, 3f);
         fixDef.shape = ps;
         body.createFixture(fixDef);
 
@@ -31,17 +31,17 @@ public class PhysFactory {
         return body;
     }
 
-    public static void buildVortex(World world) {
+    public static void buildVortex(World world, int x, int y, Vec2 force) {
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position = new Vec2(0,0);
+        bodyDef.position = new Vec2(x,y);
 
         Body body = world.createBody(bodyDef);
-        body.setUserData(new Vortex(body));
+        body.setUserData(new Vortex(body, force));
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.isSensor = true;
         CircleShape shape = new CircleShape();
-        shape.m_radius = 5;
+        shape.m_radius = 0.5f;
         fixtureDef.shape = shape;
 
         body.createFixture(fixtureDef);
