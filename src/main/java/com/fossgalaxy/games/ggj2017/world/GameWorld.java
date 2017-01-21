@@ -3,6 +3,7 @@ package com.fossgalaxy.games.ggj2017.world;
 import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.ContactManager;
 import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.World;
 
@@ -15,12 +16,17 @@ public class GameWorld {
     private static final float UPDATE_DELTA = 1/50f;
     private static final int VEL_ITER = 6;
     private static final int POS_ITER = 3;
+
     private final World world;
+    private final CollisionManager manager;
 
     public GameWorld() {
         this.world = new World(new Vec2(0, 0));
+        this.manager = new CollisionManager();
+        world.setContactListener(manager);
 
         PhysFactory.buildBody(world);
+        PhysFactory.buildVortex(world);
     }
 
     public void update() {

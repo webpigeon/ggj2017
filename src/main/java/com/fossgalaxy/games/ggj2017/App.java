@@ -58,6 +58,8 @@ public class App implements Runnable, WindowListener {
 
                 g.setColor(Color.BLACK);
                 //g.drawRect(0, 0, 10, 10);
+                g.scale(25, 25);
+
 
                 world.debugRender(g);
 
