@@ -49,6 +49,16 @@ public class GameWorld {
             body = body.getNext();
         }
 
+        //apply friction
+        body = world.getBodyList();
+        while (body != null) {
+            Entity entity = (Entity)body.getUserData();
+            if (entity != null) {
+                entity.applyFriction(world);
+            }
+            body = body.getNext();
+        }
+
         world.step(UPDATE_DELTA, VEL_ITER, POS_ITER);
     }
 

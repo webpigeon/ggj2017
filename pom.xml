@@ -10,6 +10,12 @@
   <name>game</name>
   <url>http://maven.apache.org</url>
 
+  <parent>
+    <groupId>com.fossgalaxy.common</groupId>
+    <artifactId>parent-pom</artifactId>
+    <version>0.3</version>
+  </parent>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>

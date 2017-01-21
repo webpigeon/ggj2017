@@ -19,7 +19,8 @@ public class PhysFactory {
         body.setType(BodyType.DYNAMIC);
 
         FixtureDef fixDef = new FixtureDef();
-        fixDef.friction = 0.99f;
+        fixDef.friction = 0.8f;
+        fixDef.restitution = 0.8f;
         PolygonShape ps = new PolygonShape();
         ps.setAsBox(10f, 10f);
         fixDef.shape = ps;
