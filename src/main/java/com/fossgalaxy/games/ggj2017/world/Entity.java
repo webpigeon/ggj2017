@@ -19,6 +19,9 @@ public class Entity {
     protected final Body body;
     protected final List<Component> componentList;
 
+    protected int health = 30;
+    protected final int maxHealth = 60;
+
     public Entity(Body body) {
         this.body = body;
         this.componentList = new ArrayList<>();
@@ -62,7 +65,23 @@ public class Entity {
         g2.setColor(Color.BLACK);
         g2.fillRect((int) (-worldSize.x), (int) (-worldSize.y), (int) worldSize.x * 2, (int) worldSize.y * 2);
 
+        g2.setColor(Color.WHITE);
+        g2.drawLine(0, 0, 0, -100);
 
         g2.setTransform(at);
+
+        renderHealth(g2, world);
+    }
+
+    protected void renderHealth(Graphics2D g2, GameWorld world) {
+        Vec2 worldPos = world.translateWorldToScreen(body.getPosition());
+        Vec2 worldSize = world.scaleWorldToScreen(new Vec2(1f, 1.5f));
+
+        //health bar
+        g2.setColor(Color.RED);
+        g2.fillRect((int) worldPos.x - maxHealth/2, (int) (worldPos.y + worldSize.y), maxHealth, 5);
+
+        g2.setColor(Color.GREEN);
+        g2.fillRect((int) worldPos.x - maxHealth/2, (int) (worldPos.y + worldSize.y), health, 5);
     }
 }
