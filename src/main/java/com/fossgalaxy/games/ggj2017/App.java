@@ -1,5 +1,6 @@
 package com.fossgalaxy.games.ggj2017;
 
+import com.fossgalaxy.games.ggj2017.world.GameWorld;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 
@@ -13,20 +14,16 @@ import java.awt.image.BufferStrategy;
  *
  */
 public class App implements Runnable, WindowListener {
-    private static final float UPDATE_DELTA = 1/50f;
-    private static final int VEL_ITER = 6;
-    private static final int POS_ITER = 3;
-
+    private final GameWorld world;
     private final Frame frame;
     private final Canvas canvas;
-    private final World world;
     private boolean running = true;
 
     public App() {
         this.frame = new Frame();
         frame.addWindowListener(this);
         this.canvas = buildView(frame);
-        this.world = createWorld();
+        this.world = new GameWorld();
     }
 
     public static void main( String[] args ) throws InterruptedException {
@@ -49,23 +46,21 @@ public class App implements Runnable, WindowListener {
         return canvas;
     }
 
-    public static World createWorld() {
-        World world = new World(new Vec2(0,0));
-
-        return world;
-    }
 
     public void run() {
         try {
             while (running) {
 
-                world.step(UPDATE_DELTA, VEL_ITER, POS_ITER);
+                world.update();
 
                 BufferStrategy bs = canvas.getBufferStrategy();
-                Graphics g = bs.getDrawGraphics();
+                Graphics2D g = (Graphics2D)bs.getDrawGraphics();
 
                 g.setColor(Color.BLACK);
-                g.drawRect(0, 0, 10, 10);
+                //g.drawRect(0, 0, 10, 10);
+
+                world.debugRender(g);
+
                 g.dispose();
 
                 bs.show();
