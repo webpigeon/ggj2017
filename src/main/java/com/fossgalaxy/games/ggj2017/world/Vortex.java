@@ -18,16 +18,18 @@ public class Vortex extends Entity {
     public Vortex(Body body) {
         super(body);
         this.inContact = new ArrayList<Body>();
-        this.force = new Vec2(5, 5);
+        this.force = new Vec2(2.5f, 2.5f);
     }
 
     public void apply(World world) {
+
+        System.out.println(inContact);
 
         for (Body body : inContact) {
             Vec2 normMag = new Vec2(force);
             normMag.normalize();
 
-            float forceMag = force.length();
+            float forceMag = body.getMass();
 
             Vec2 bodyPos = new Vec2(body.getPosition());
             Vec2 deltaPos = bodyPos.sub(getBody().getPosition());
@@ -37,7 +39,7 @@ public class Vortex extends Entity {
             float mag = forceMag / deltaMag;
             normMag.mul(mag);
 
-            body.applyForceToCenter(normMag);
+            body.applyForce(normMag, body.getWorldCenter());
         }
     }
 
@@ -46,5 +48,11 @@ public class Vortex extends Entity {
         super.onCollide(other, manifold);
 
         inContact.add(other.getBody());
+    }
+
+    @Override
+    public void onCollideExit(Entity other, Manifold manifold) {
+        super.onCollide(other, manifold);
+        inContact.remove(other.getBody());
     }
 }

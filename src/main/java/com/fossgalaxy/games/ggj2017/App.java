@@ -60,7 +60,7 @@ public class App implements Runnable, WindowListener {
 
                 g.setColor(Color.BLACK);
                 //g.drawRect(0, 0, 10, 10);
-                g.scale(25, 25);
+                //g.scale(25, 25);
 
 
                 world.debugRender(g);
@@ -71,9 +71,10 @@ public class App implements Runnable, WindowListener {
                 frames++;
 
                 long currentTime = System.currentTimeMillis();
-                if (lastFPS - currentTime > 1000) {
+                if (currentTime - lastFPS > 1000) {
                     System.out.println(frames);
                     lastFPS = currentTime;
+                    frames = 0;
                 }
 
                 Thread.sleep(1000 / 50);

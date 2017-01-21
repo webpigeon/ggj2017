@@ -29,7 +29,20 @@ public class CollisionManager implements ContactListener {
     }
 
     public void endContact(Contact contact) {
+        //figure out who hit what
+        Body bodyA = contact.getFixtureA().getBody();
+        Body bodyB = contact.getFixtureB().getBody();
 
+        //exchange insurance details ;P
+        Entity entityA = (Entity)bodyA.getUserData();
+        Entity entityB = (Entity)bodyB.getUserData();
+
+        if (entityA == null || entityB == null) {
+            return;
+        }
+
+        entityA.onCollideExit(entityB, contact.getManifold());
+        entityB.onCollideExit(entityA, contact.getManifold());
     }
 
     public void preSolve(Contact contact, Manifold oldManifold) {

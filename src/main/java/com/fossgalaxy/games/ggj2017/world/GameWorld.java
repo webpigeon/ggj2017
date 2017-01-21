@@ -38,6 +38,8 @@ public class GameWorld {
     }
 
     public void update() {
+        world.clearForces();
+
         Body body = world.getBodyList();
         while (body != null) {
             Entity entity = (Entity)body.getUserData();

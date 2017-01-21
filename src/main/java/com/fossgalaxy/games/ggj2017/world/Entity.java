@@ -24,5 +24,11 @@ public class Entity {
     }
 
     public void apply(World world) {
+        System.out.println(body.getLinearVelocity());
+
+    }
+
+    public void onCollideExit(Entity entityB, Manifold manifold) {
+
     }
 }
