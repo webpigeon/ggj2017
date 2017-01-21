@@ -10,7 +10,7 @@ import org.jbox2d.dynamics.*;
  */
 public class PhysFactory {
 
-    public static Body buildWoodenBoat(World world) {
+    public static Ship buildWoodenBoat(World world) {
 
         BodyDef def = new BodyDef();
         def.position = new Vec2(10,10);
@@ -29,9 +29,10 @@ public class PhysFactory {
         fixDef.restitution = 0; //boats are not made of rubber
         body.createFixture(fixDef);
 
-        body.setUserData(new Entity(body));
+        Ship ship = new Ship(body);
+        body.setUserData(ship);
 
-        return body;
+        return ship;
     }
 
     public static Body buildBarrier(World world, int x, int y, int width, int height) {
@@ -49,7 +50,7 @@ public class PhysFactory {
         fixDef.shape = ps;
         body.createFixture(fixDef);
 
-       // body.setUserData(new Entity(body));
+       body.setUserData(new Wall(body));
 
         return body;
     }

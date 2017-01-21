@@ -36,7 +36,7 @@ public class IslandMaker {
     }
 
     public static ArrayList<Body> makeIslandsRunLength(boolean[][] map, float numPerMeter, World world) {
-        ArrayList<Body> bodies = new ArrayList<Body>();
+        ArrayList<Body> bodies = new ArrayList<>();
 
         int prevY = -1;
         for (int x = 0; x < map.length; x++) {
