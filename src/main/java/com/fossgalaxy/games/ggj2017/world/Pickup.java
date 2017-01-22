@@ -2,6 +2,7 @@ package com.fossgalaxy.games.ggj2017.world;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.World;
 import org.jbox2d.dynamics.contacts.Contact;
 
 import java.awt.*;
@@ -16,6 +17,15 @@ public class Pickup extends Entity {
     public Pickup(Body body, Vec2 dimensions) {
         super(body);
         this.dimensions = dimensions;
+    }
+
+    @Override
+    public void apply(World world) {
+
+        //if we have no health, reap
+        if (health == 0) {
+            world.destroyBody(body);
+        }
     }
 
     @Override
