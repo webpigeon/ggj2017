@@ -5,6 +5,8 @@ import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
 
+import javax.swing.plaf.metal.MetalIconFactory;
+
 /**
  * Created by webpigeon on 21/01/17.
  */
@@ -74,5 +76,24 @@ public class PhysFactory {
         body.createFixture(fixtureDef);
 
         return vortex;
+    }
+
+    public static Pickup buildPickup(World world, int x, int y){
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.position = new Vec2(x, y);
+        Body body = world.createBody(bodyDef);
+        Pickup pickup = new Pickup(body, new Vec2(0.5f, 0.5f));
+
+        body.setUserData(pickup);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.isSensor = true;
+        CircleShape shape = new CircleShape();
+        shape.m_radius = 0.5f;
+        fixtureDef.shape = shape;
+
+        body.createFixture(fixtureDef);
+
+        return pickup;
     }
 }

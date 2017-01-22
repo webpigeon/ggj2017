@@ -37,4 +37,58 @@ public class VectorUtils {
 
         return (float)Math.abs(mps);
     }
+
+    private static final float RIGHT = 0;
+    private static final float DOWN = (float) (Math.PI / 2);
+    private static final float Left = (float) (Math.PI );
+    private static final float Up = (float) (3 * Math.PI / 2 );
+
+
+
+    public static float windCalculation(float windAngle, float shipAngle){
+
+        float difference = windAngle - shipAngle;
+        float fraction = (float)(difference / Math.PI);
+//        fraction = 1 - fraction;
+        float quarter = 0.5f;
+        System.out.println("fraction: " + fraction);
+
+        if(Math.abs(fraction) == 0) return 1;
+        if(Math.abs(fraction) == 1) return 0.75f;
+        if(Math.abs(fraction) == 0.5f) return 0.25f;
+        if(Math.abs(fraction) == 1.5f) return 0.25f;
+
+        if(fraction < 0){
+            System.out.println("Top Quadrant");
+            if(fraction <  -quarter){
+                System.out.println("TL");
+                return (((fraction + quarter) * 0.5f) +0.25f);
+            }else{
+                System.out.println("TR");
+                return (fraction * 0.75f) + 0.25f;
+            }
+        }else {
+            System.out.println("Bottom Quadrant");
+            if (fraction > quarter) {
+                System.out.println("BL");
+                return ((fraction - quarter) * 0.5f) + 0.25f;
+            } else {
+                System.out.println("BR");
+                System.out.println(fraction);
+                return ((fraction * 2) * 0.75f) + 0.25f;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(windCalculation(0, 0)); // 1
+        System.out.println(windCalculation(0, (float)Math.PI / 4)); //0.625
+        System.out.println(windCalculation(0, (float)-Math.PI / 4)); //0.625
+        System.out.println(windCalculation(0, (float)(3 * Math.PI / 2))); //0.25
+        System.out.println(windCalculation(0, (float)(-3 * Math.PI / 2))); // 0.25
+        System.out.println(windCalculation((float)Math.PI, 0)); // 0.75
+        System.out.println(windCalculation((float)-Math.PI, 0)); // 0.75
+        System.out.println(windCalculation(0, (float)Math.PI / 2)); // 0.25
+        System.out.println(windCalculation(0, (float)-Math.PI / 2)); // 0.25
+    }
 }
