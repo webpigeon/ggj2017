@@ -20,7 +20,7 @@ import javax.sound.sampled.Clip;
  *
  */
 public class AudioManager {
-    private String backgroundFileName = "Ritual_Commute_Game_OST (1).aiff";
+    private String backgroundFileName = "background.aiff";
 
     private Clip backgroundMusic;
 
