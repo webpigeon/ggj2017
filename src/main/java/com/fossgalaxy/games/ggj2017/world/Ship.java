@@ -38,8 +38,7 @@ public class Ship extends Entity {
                 -(float)Math.sin(body.getAngle())
         );
 
-        force = force.mul(5f);
-//        force = force.negate();
+        force = force.mul(2f);
 
         body.applyForceToCenter(force);
     }
