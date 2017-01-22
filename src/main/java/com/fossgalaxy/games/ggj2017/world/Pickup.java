@@ -33,8 +33,6 @@ public class Pickup extends Entity {
     public Pickup(Body body, Vec2 dimensions) {
         super(body);
         this.dimensions = dimensions;
-
-
     }
 
     @Override
