@@ -39,7 +39,6 @@ public class Ship extends Entity {
         );
 
         force = force.mul(5f);
-//        force = force.negate();
 
         body.applyForceToCenter(force);
     }
