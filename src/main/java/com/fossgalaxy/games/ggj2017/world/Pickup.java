@@ -21,7 +21,7 @@ public class Pickup extends Entity {
 
     static {
         try {
-            BufferedImage image = ImageIO.read(Pickup.class.getResourceAsStream("/spritesheet.png"));
+            BufferedImage image = ImageIO.read(Pickup.class.getClassLoader().getResourceAsStream("spritesheet.png"));
             sprite = image.getSubimage(733, 188, 16, 16);
 
         } catch (IOException e) {
