@@ -17,6 +17,8 @@ public class Ship extends Entity {
     private float windDirection = 0;
     private float windForce = 1;
 
+    private int score;
+
     private final BufferedImage[][] sprites;
 
     public Ship(Body body) {
@@ -120,5 +122,13 @@ public class Ship extends Entity {
 
     public void reset() {
         health = maxHealth;
+    }
+
+    public void addScore(int i) {
+        this.score += i;
+    }
+
+    public int getScore() {
+        return score;
     }
 }

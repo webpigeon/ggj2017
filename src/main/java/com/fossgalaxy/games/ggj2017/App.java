@@ -40,7 +40,7 @@ public class App implements Runnable, WindowListener {
         this.activeScene = null;
 
         addScene("title", new TitleScene());
-        addScene("gameover", new GameOverScene());
+        addScene("gameover", new GameOverScene(world));
         addScene("world", world);
 
         setScene("title");
