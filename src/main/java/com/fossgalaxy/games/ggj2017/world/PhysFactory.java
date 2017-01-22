@@ -27,7 +27,7 @@ public class PhysFactory {
         fixDef.restitution = 0.8f;
         fixDef.density = 1;
         PolygonShape ps = new PolygonShape();
-        ps.setAsBox(1f, 1.5f);
+        ps.setAsBox(1f, 1f);
         fixDef.shape = ps;
         fixDef.restitution = 0; //boats are not made of rubber
         body.createFixture(fixDef);

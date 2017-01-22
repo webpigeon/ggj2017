@@ -31,9 +31,11 @@ public class TitleScene implements Scene {
     @Override
     public void render(Graphics2D graphics) {
         graphics.setColor(Color.BLACK);
-        graphics.fillRect(0, 0, 800, 600);
+        graphics.fillRect(0, 0, 800, 800);
 
-        graphics.setColor(Color.WHITE);
-        graphics.drawString("countdown: "+countdown, 100, 100);
+
+
+        graphics.setColor(Color.GREEN);
+        graphics.fillRect(200, 500, (int)((countdown/120f) * 400), 5);
     }
 }

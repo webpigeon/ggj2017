@@ -31,7 +31,7 @@ public class GameOverScene implements Scene {
     @Override
     public void render(Graphics2D graphics) {
         graphics.setColor(Color.BLACK);
-        graphics.fillRect(0, 0, 800, 600);
+        graphics.fillRect(0, 0, 800, 800);
 
         graphics.setColor(Color.WHITE);
         graphics.drawString("Game Over", 100, 100);
