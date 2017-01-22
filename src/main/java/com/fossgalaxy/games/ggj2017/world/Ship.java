@@ -41,7 +41,7 @@ public class Ship extends Entity {
         //g2.fillRect((int) (-worldSize.x), (int) (-worldSize.y), (int) worldSize.x * 2, (int) worldSize.y * 2);
 
 
-        int angle = (8 + ((360 + (int)Math.toDegrees(body.getAngle())) % 360 / 45)) % 8;
+        int angle = (7 + ((360 + (int)Math.toDegrees(body.getAngle())) % 360 / 45)) % 8;
 
         g2.drawImage(sprites[7 - angle][0], (int)-worldSize.x, (int)-worldSize.y, (int)worldSize.x * 2, (int)worldSize.y * 2, null);
         /*g2.setColor(Color.WHITE);
