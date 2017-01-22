@@ -22,8 +22,8 @@ public class WeatherFactory {
 
         // build initial list of them
         Vec2 dimensions = world.getDimensions();
-        for (int x = 0; x <= (int)dimensions.x / sizeOfCell; x++){
-            for(int y = 0; y <= (int)dimensions.y / sizeOfCell; y++){
+        for (int x = 0; x <= 150 / sizeOfCell; x++){
+            for(int y = 0; y <= 150 / sizeOfCell; y++){
                 cells.add(new PhantomCell(
                         new Vec2(x * sizeOfCell, y * sizeOfCell),
                         sizeOfCell,

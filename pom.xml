@@ -20,6 +20,34 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
+
+  <build>
+    <plugins>
+      <!-- other plugins here -->
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+          <archive>
+            <manifest>
+              <mainClass>com.fossgalaxy.games.ggj2017.App</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -27,11 +55,11 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
+    <!--<dependency>
       <groupId>org.jbox2d</groupId>
       <artifactId>jbox2d</artifactId>
       <version>2.2.1.1</version>
-    </dependency>
+    </dependency> -->
     <dependency>
       <groupId>org.jbox2d</groupId>
       <artifactId>jbox2d-library</artifactId>
