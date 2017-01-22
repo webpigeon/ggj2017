@@ -5,6 +5,7 @@ import com.fossgalaxy.games.ggj2017.Scene;
 import com.fossgalaxy.games.ggj2017.mapGen.IslandMaker;
 import com.fossgalaxy.games.ggj2017.mapGen.MapGenerator;
 import com.fossgalaxy.games.ggj2017.world.weather.WeatherFactory;
+import com.fossgalaxy.games.ggj2017.sprites.AudioManager;
 import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -144,6 +145,9 @@ public class GameWorld implements Scene {
 
     public void onActive() {
         player.reset();
+
+        AudioManager dave = new AudioManager();
+        dave.startBackground();
     }
 
     public void update() {
