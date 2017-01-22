@@ -30,12 +30,12 @@ public class VectorUtils {
      * @param theta The max allowed angle. Will allow anything +/- theta/2
      * @return
      */
-    public static boolean thetaCheck(Vec2 p, Vec2 m, Vec2 s, double theta){
+    public static float thetaCheck(Vec2 p, Vec2 m, Vec2 s){
         Vec2 ps = s.sub(p);
         Vec2 pm = m.sub(p);
         double mps = Math.acos(Vec2.dot(ps, pm) / (ps.length() * pm.length()));
 
-        return (theta / 2 > Math.abs(mps));
+        return (float)Math.abs(mps);
     }
 
     private static final float RIGHT = 0;

@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class Vortex extends Entity {
     private static final int ROTATION_FORCE = 100;
+    public static final int RANGE = 3;
 
     private Vec2 force;
     private List<Body> inContact;
@@ -38,28 +39,47 @@ public class Vortex extends Entity {
 
         float angle = (float)Math.atan2(force.y, force.x);
 
+        Vec2 vortexPos = getBody().getPosition();
+
+        Vec2 maxDist = new Vec2(force);
+        maxDist.normalize();
+        maxDist.mul(RANGE);
+
+
+        //Vec2 maxDist = vortexPos.add(force);
+
         for (Body body : inContact) {
-            Vec2 normMag = new Vec2(force);
-            normMag.normalize();
 
-            float forceMag = force.length();
+            Vec2 shipPos = body.getPosition();
+            float distanceFromSource = VectorUtils.distanceAloneLine(vortexPos, maxDist, shipPos);
 
-            Vec2 bodyPos = new Vec2(body.getPosition());
-            Vec2 deltaPos = bodyPos.sub(getBody().getPosition());
+            float dampening = 1 - (distanceFromSource/RANGE);
 
-            float deltaMag = deltaPos.length();
+            if (dampening > 1 || dampening < 0) {
+                continue;
+            }
 
-            float mag = forceMag / deltaMag;
-            normMag.mul(mag);
+            if (Float.isNaN(dampening)) {
+                dampening = 1;
+            }
 
-            body.applyForce(normMag, body.getWorldCenter());
+            Vec2 forceCopy = force.mul(dampening);
+
+            //System.out.println("deltaMag: " + forceCopy+"max: "+force+" (damp: "+dampening+") "+shipPos+" "+vortexPos);
+
+            body.applyForce(forceCopy, body.getWorldCenter());
+
+            float windAngle = (float)Math.atan2(force.y, force.x);
+            float bodyAngle = body.getAngle();
+
+            //float angleDiffence = (windAngle - bodyAngle) / ;
 
             //try to fake the next angle
-            float nextAngle = body.getAngle() + body.getAngularVelocity() / 3f;
+            /*float nextAngle = body.getAngle() + body.getAngularVelocity() / 3f;
             float totalRotation = angle - nextAngle;
             while (totalRotation < Math.toRadians(-180)) totalRotation += Math.toRadians(360);
             while (totalRotation > Math.toRadians(180)) totalRotation -= Math.toRadians(360);
-            body.applyTorque(totalRotation < 0 ? -ROTATION_FORCE : ROTATION_FORCE);
+            body.applyTorque(totalRotation < 0 ? -ROTATION_FORCE : ROTATION_FORCE);*/
         }
     }
 

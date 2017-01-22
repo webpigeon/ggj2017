@@ -35,7 +35,9 @@ public class Pickup extends Entity {
     @Override
     public void onCollide(Entity entityB, Contact contact) {
         if(entityB instanceof Ship){
-            System.out.println("Pickup located");
+            health = 0;
+            Ship ship = (Ship)entityB;
+            ship.addScore(+1);
         }
     }
 }

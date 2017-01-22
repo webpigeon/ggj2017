@@ -17,6 +17,7 @@ public class PhysFactory {
         BodyDef def = new BodyDef();
         def.position = new Vec2(10,10);
         def.bullet = true;
+        def.angularDamping = 1f;
 
         Body body = world.createBody(def);
         body.setType(BodyType.DYNAMIC);
@@ -69,7 +70,7 @@ public class PhysFactory {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.isSensor = true;
         CircleShape shape = new CircleShape();
-        shape.m_radius = 0.5f;
+        shape.m_radius = Vortex.RANGE;
         fixtureDef.shape = shape;
 
         body.createFixture(fixtureDef);
