@@ -1,5 +1,6 @@
 package com.fossgalaxy.games.ggj2017.world.weather;
 
+import com.fossgalaxy.games.ggj2017.world.GameWorld;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 
@@ -9,23 +10,21 @@ import org.jbox2d.dynamics.World;
 public class PhantomCell {
 
     private Vec2 location;
-    private final Vec2 dimensions;
+    private final int size;
     private final Vec2 forceToApply;
-    private final World world;
+    private final GameWorld world;
 
     private static final Vec2 speed = new Vec2(1, 0);
 
-    public PhantomCell(Vec2 location, Vec2 dimensions, Vec2 forceToApply, World world) {
+    public PhantomCell(Vec2 location, int size, Vec2 forceToApply, GameWorld world) {
         this.location = location;
-        this.dimensions = dimensions;
+        this.size = size;
         this.forceToApply = forceToApply;
         this.world = world;
     }
 
     public void update(){
         location = location.add(speed.mul(1/50));
-
-        // Find vortex objects in range and alter them
-        // See how the ship does it
+        world.changeWind(forceToApply.x, forceToApply.y, (int)location.x, (int)location.y, size);
     }
 }

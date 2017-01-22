@@ -4,6 +4,7 @@ import com.fossgalaxy.games.ggj2017.App;
 import com.fossgalaxy.games.ggj2017.Scene;
 import com.fossgalaxy.games.ggj2017.mapGen.IslandMaker;
 import com.fossgalaxy.games.ggj2017.mapGen.MapGenerator;
+import com.fossgalaxy.games.ggj2017.world.weather.WeatherFactory;
 import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -33,6 +34,7 @@ public class GameWorld implements Scene {
     private final Vortex[][] wind;
     private final Vec2 windDir;
     private final Random random;
+    private final WeatherFactory weatherFactory;
 
     private Ship player;
 
@@ -47,6 +49,7 @@ public class GameWorld implements Scene {
         this.wind = new Vortex[150][150];
         this.windDir = new Vec2(0,0);
         this.random = new Random();
+        this.weatherFactory = new WeatherFactory(this, 10);
 
         PhysFactory.buildBarrier(world, 151, -1, 1, 150);
         PhysFactory.buildBarrier(world, -1, -1, 1, 150);
@@ -145,6 +148,7 @@ public class GameWorld implements Scene {
 
     public void update() {
         world.clearForces();
+        weatherFactory.update();
 
 //        windDir.x += WIND_DELTA * random.nextGaussian();
 //        windDir.y += WIND_DELTA * random.nextGaussian();
@@ -152,8 +156,8 @@ public class GameWorld implements Scene {
 
 //        changeWind(windDir.x, windDir.y);
 
-        Vec2 windVec = player.getWindVec();
-        changeWind(windVec.x, windVec.y, (int)player.getBody().getPosition().x, (int)player.getBody().getPosition().y, 10);
+//        Vec2 windVec = player.getWindVec();
+//        changeWind(windVec.x, windVec.y, (int)player.getBody().getPosition().x, (int)player.getBody().getPosition().y, 10);
 
         Body body = world.getBodyList();
         while (body != null) {
@@ -263,5 +267,9 @@ public class GameWorld implements Scene {
 
     public Ship getShip() {
         return player;
+    }
+
+    public Vec2 getDimensions() {
+        return dimensions;
     }
 }

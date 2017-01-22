@@ -3,6 +3,7 @@ package com.fossgalaxy.games.ggj2017.world;
 import com.fossgalaxy.games.ggj2017.sprites.WebPigeonSpriteManager;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.World;
 import org.jbox2d.dynamics.contacts.Contact;
 
 import java.awt.*;
@@ -25,6 +26,22 @@ public class Ship extends Entity {
         super(body);
         BufferedImage src = WebPigeonSpriteManager.instance.get("ship");
         sprites = WebPigeonSpriteManager.instance.cut(src, 32, 32);
+    }
+
+    @Override
+    public void apply(World world) {
+        super.apply(world);
+
+        // Provide some motive force
+        Vec2 force = new Vec2(
+                (float)Math.cos(body.getAngle()),
+                -(float)Math.sin(body.getAngle())
+        );
+
+        force = force.mul(5f);
+//        force = force.negate();
+
+        body.applyForceToCenter(force);
     }
 
     public void draw(Graphics2D g2, GameWorld world) {
