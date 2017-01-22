@@ -50,6 +50,7 @@ public class GameWorld {
         PhysFactory.buildBarrier(world, -1, -1, 1, 150);
         PhysFactory.buildBarrier(world, -1, -1, 150, 1);
         PhysFactory.buildBarrier(world, 151, -1, 150, 1);
+        PhysFactory.buildPickup(world, 12, 15);
 
         player = PhysFactory.buildWoodenBoat(world);
 

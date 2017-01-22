@@ -11,7 +11,7 @@ import java.io.IOException;
  */
 public class SpriteManager {
 
-    private static BufferedImage[] getSet(BufferedImage image, int[] arguments) {
+    private static BufferedImage[][] getSet(BufferedImage image, int[] arguments) {
         int rows = arguments[0];
         int columns = arguments[1];
         int width = arguments[2];
@@ -23,7 +23,7 @@ public class SpriteManager {
 
         System.out.println(xOffset + ":" + yOffset + ":" + xIndOffset + ":" + yIndOffset);
 
-        BufferedImage[] sprites = new BufferedImage[rows * columns];
+        BufferedImage[][] sprites = new BufferedImage[rows][columns];
         System.out.println("Loading: " + sprites.length + " Images");
 
         for (int row = 0; row < rows; row++) {
@@ -34,7 +34,7 @@ public class SpriteManager {
                 int yStart = yOffset + (row * height) + (row * yIndOffset);
 
                 System.out.println(xStart + ":" + yStart);
-                sprites[(row * columns) + column] = image.getSubimage(
+                sprites[row][column] = image.getSubimage(
                         xStart,
                         yStart,
                         width,
@@ -45,19 +45,28 @@ public class SpriteManager {
         return sprites;
     }
 
-    private static BufferedImage[][] stitchQuads(BufferedImage[] images, int width, int height) {
+    private static BufferedImage[][] stitchQuads(BufferedImage[][] images, int width, int height) {
         BufferedImage[][] output = new BufferedImage[width][height];
         int i = 0;
-        for (int x = 0; x < width; x += 1) {
-            for (int y = 0; y < height; y += 1) {
+        for (int x = 0; x < width * 2; x += 2) {
+            for (int y = 0; y < height * 2; y += 2) {
                 System.out.println("i: " + i + "x: " + x + "y: " + y);
-                output[x][y] = stitchQuad(new BufferedImage[]{
-                        images[(x * 2)], images[(x * 2) + 1],
-                        images[(y * 2)], images[(y * 2) + 1]
+                output[x / 2][y / 2] = stitchQuad(new BufferedImage[]{
+                        images[x][y], images[x + 1][y],
+                        images[x][y + 1], images[x + 1][y + 1]
                 });
+                i++;
             }
         }
+
+        /**
+         *
+         */
         return output;
+    }
+
+    private static BufferedImage stitchQuad(BufferedImage[][] images){
+        return stitchQuad(new BufferedImage[]{images[0][0], images[1][0], images[0][1], images[1][1]});
     }
 
     private static BufferedImage stitchQuad(BufferedImage[] images) {
@@ -94,12 +103,12 @@ public class SpriteManager {
 
         BufferedImage all = ImageIO.read(SpriteManager.class.getResourceAsStream("/spritesheet.png"));
         System.out.println("Read the main image");
-        BufferedImage[] quad = getSet(all, new int[]{2, 2, 16, 16, 221, 0, 1, 1});
+        BufferedImage[][] quad = getSet(all, new int[]{2, 2, 16, 16, 221, 0, 1, 1});
         System.out.println("Got the quad");
         BufferedImage ship = stitchQuad(quad);
         System.out.println("Stitched them");
 
-        BufferedImage[] set = getSet(all, new int[]{12, 12, 16, 16, 221, 0, 1, 1});
+        BufferedImage[][] set = getSet(all, new int[]{12, 12, 16, 16, 221, 0, 1, 1});
         BufferedImage[][] setStitched = stitchQuads(set, 6, 6);
         frame.add(new JComponent() {
             @Override
@@ -108,6 +117,7 @@ public class SpriteManager {
                 Graphics2D g2 = (Graphics2D) g;
                 g2.scale(10, 10);
                 int x = 0;
+//                g.drawImage(setStitched[0][0], 0, 0, null);
                 for (BufferedImage[] imageRow : setStitched) {
                     int y = 0;
                     for (BufferedImage image : imageRow) {
