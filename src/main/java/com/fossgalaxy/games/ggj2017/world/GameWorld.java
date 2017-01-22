@@ -56,7 +56,11 @@ public class GameWorld implements Scene {
         PhysFactory.buildBarrier(world, -1, -1, 1, 150);
         PhysFactory.buildBarrier(world, -1, -1, 150, 1);
         PhysFactory.buildBarrier(world, 151, -1, 150, 1);
-        PhysFactory.buildPickup(world, 12, 15);
+
+        Random random = new Random();
+        for (int i=0; i<150; i++) {
+            PhysFactory.buildPickup(world, random.nextInt(150), random.nextInt(150));
+        }
 
         player = PhysFactory.buildWoodenBoat(world);
 
