@@ -15,6 +15,7 @@ public class PhysFactory {
         BodyDef def = new BodyDef();
         def.position = new Vec2(10,10);
         def.bullet = true;
+        def.angularDamping = 1f;
 
         Body body = world.createBody(def);
         body.setType(BodyType.DYNAMIC);

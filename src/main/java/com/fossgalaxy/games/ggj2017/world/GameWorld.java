@@ -1,5 +1,7 @@
 package com.fossgalaxy.games.ggj2017.world;
 
+import com.fossgalaxy.games.ggj2017.App;
+import com.fossgalaxy.games.ggj2017.Scene;
 import com.fossgalaxy.games.ggj2017.mapGen.IslandMaker;
 import com.fossgalaxy.games.ggj2017.mapGen.MapGenerator;
 import org.jbox2d.collision.AABB;
@@ -14,13 +16,14 @@ import java.util.Random;
 /**
  * Created by webpigeon on 21/01/17.
  */
-public class GameWorld {
+public class GameWorld implements Scene {
     private static final Vec2 REAL_ORIGIN = new Vec2();
     private static final float UPDATE_DELTA = 1/60f;
     private static final int VEL_ITER = 6;
     private static final int POS_ITER = 3;
     private static final float WIND_DELTA = 0.1f;
 
+    private App app;
     private final World world;
     private final CollisionManager manager;
 
@@ -86,6 +89,23 @@ public class GameWorld {
         windDir.set(windX, windY);
     }
 
+    public void changeWind(float windX, float windY, int x, int y, int range) {
+        for (int i=-range; i<range; i++) {
+            for (int j=-range; j<range; j++) {
+
+                if (x+i < 0 || y+j < 0 || x+i >= wind.length || y+j >= wind[x+i].length ) {
+                    continue;
+                }
+
+                if (wind[x+i][y+j] != null) {
+                    wind[x+i][y+j].setForce(windX, windY);
+                }
+            }
+        }
+        windDir.set(windX, windY);
+    }
+
+
     private void buildEmptyField() {
         for (int x=0; x<wind.length; x += 5) {
             for (int y=0; y<wind[x].length; y += 5) {
@@ -113,6 +133,15 @@ public class GameWorld {
         this.player = player;
     }
 
+    @Override
+    public void onCreate(App app) {
+        this.app = app;
+    }
+
+    public void onActive() {
+        player.reset();
+    }
+
     public void update() {
         world.clearForces();
 
@@ -123,7 +152,7 @@ public class GameWorld {
 //        changeWind(windDir.x, windDir.y);
 
         Vec2 windVec = player.getWindVec();
-        changeWind(windVec.x, windVec.y);
+        changeWind(windVec.x, windVec.y, (int)player.getBody().getPosition().x, (int)player.getBody().getPosition().y, 10);
 
         Body body = world.getBodyList();
         while (body != null) {
@@ -147,7 +176,7 @@ public class GameWorld {
         world.step(UPDATE_DELTA, VEL_ITER, POS_ITER);
 
         if (!player.isAlive()) {
-            //TODO swap scene
+            app.setScene("gameover");
         }
     }
 
@@ -229,5 +258,9 @@ public class GameWorld {
 
             body = body.getNext();
         }
+    }
+
+    public Ship getShip() {
+        return player;
     }
 }

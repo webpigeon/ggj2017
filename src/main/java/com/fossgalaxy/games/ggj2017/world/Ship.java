@@ -1,22 +1,28 @@
 package com.fossgalaxy.games.ggj2017.world;
 
+import com.fossgalaxy.games.ggj2017.sprites.WebPigeonSpriteManager;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.contacts.Contact;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
 /**
  * Created by webpigeon on 21/01/17.
  */
 public class Ship extends Entity {
     private static final Color BROWN = new Color(51, 0, 0);
-    private float windDirection = (float)(Math.PI / 2 + Math.PI);
-    private float windForce = 100;
+    private float windDirection = 0;
+    private float windForce = 1;
+
+    private final BufferedImage[][] sprites;
 
     public Ship(Body body) {
         super(body);
+        BufferedImage src = WebPigeonSpriteManager.instance.get("ship");
+        sprites = WebPigeonSpriteManager.instance.cut(src, 32, 32);
     }
 
     public void draw(Graphics2D g2, GameWorld world) {
@@ -27,18 +33,21 @@ public class Ship extends Entity {
         Vec2 worldSize = world.scaleWorldToScreen(new Vec2(1f, 1.5f));
 
         g2.translate(worldPos.x, worldPos.y);
-        renderWindDirection(g2);
+        //g2.rotate(-body.getAngle());
 
-        g2.rotate(-body.getAngle());
+        //g2.setColor(BROWN);
+        //g2.fillRect((int) (-worldSize.x), (int) (-worldSize.y), (int) worldSize.x * 2, (int) worldSize.y * 2);
 
-        g2.setColor(BROWN);
-        g2.fillRect((int) (-worldSize.x), (int) (-worldSize.y), (int) worldSize.x * 2, (int) worldSize.y * 2);
 
+        int angle = (8 + ((360 + (int)Math.toDegrees(body.getAngle())) % 360 / 45)) % 8;
+
+        g2.drawImage(sprites[7 - angle][0], (int)-worldSize.x, (int)-worldSize.y, (int)worldSize.x * 2, (int)worldSize.y * 2, null);
         /*g2.setColor(Color.WHITE);
         g2.drawLine(0, 0, 0, 100);*/
 
         g2.setTransform(at);
 
+        renderWindDirection(g2);
         renderHealth(g2, world);
 
     }
@@ -91,6 +100,25 @@ public class Ship extends Entity {
     }
 
     public boolean isAlive() {
-        return health >= 0;
+        return health > 0;
+    }
+
+    public float getWindAngle() {
+        return windDirection;
+    }
+
+    public void forwards() {
+    }
+
+    public void rotatePort() {
+        body.applyAngularImpulse(0.1f);
+    }
+
+    public void rotateStarboard() {
+        body.applyAngularImpulse(-0.1f);
+    }
+
+    public void reset() {
+        health = maxHealth;
     }
 }

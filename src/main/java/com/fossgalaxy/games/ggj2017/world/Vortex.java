@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Vortex extends Entity {
     private static final int ROTATION_FORCE = 100;
-    public static final int RANGE = 1;
+    public static final int RANGE = 3;
 
     private Vec2 force;
     private List<Body> inContact;
@@ -65,16 +65,21 @@ public class Vortex extends Entity {
 
             Vec2 forceCopy = force.mul(dampening);
 
-            System.out.println("deltaMag: " + forceCopy+"max: "+force+" (damp: "+dampening+")"+shipPos+" "+vortexPos);
+            //System.out.println("deltaMag: " + forceCopy+"max: "+force+" (damp: "+dampening+") "+shipPos+" "+vortexPos);
 
             body.applyForce(forceCopy, body.getWorldCenter());
 
+            float windAngle = (float)Math.atan2(force.y, force.x);
+            float bodyAngle = body.getAngle();
+
+            //float angleDiffence = (windAngle - bodyAngle) / ;
+
             //try to fake the next angle
-            float nextAngle = body.getAngle() + body.getAngularVelocity() / 3f;
+            /*float nextAngle = body.getAngle() + body.getAngularVelocity() / 3f;
             float totalRotation = angle - nextAngle;
             while (totalRotation < Math.toRadians(-180)) totalRotation += Math.toRadians(360);
             while (totalRotation > Math.toRadians(180)) totalRotation -= Math.toRadians(360);
-            body.applyTorque(totalRotation < 0 ? -ROTATION_FORCE : ROTATION_FORCE);
+            body.applyTorque(totalRotation < 0 ? -ROTATION_FORCE : ROTATION_FORCE);*/
         }
     }
 

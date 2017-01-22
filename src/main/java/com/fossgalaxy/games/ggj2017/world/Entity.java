@@ -19,8 +19,8 @@ public class Entity {
     protected final Body body;
     protected final List<Component> componentList;
 
-    protected int health = 30;
-    protected final int maxHealth = 60;
+    protected int health = 1;
+    protected final int maxHealth = 3;
 
     public Entity(Body body) {
         this.body = body;
