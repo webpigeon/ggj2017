@@ -1,5 +1,8 @@
 package com.fossgalaxy.games.ggj2017.mapGen.noise;
 
+import javax.swing.*;
+import java.awt.*;
+
 /**
  * Created by Piers on 21/01/2017.
  */
@@ -126,5 +129,30 @@ public class SimplexNoise {
     static {
         for (int i = 0; i < 512; i++)
             perm[i] = p[i & 255];
+    }
+
+    public static void main(String[] args) {
+        float[][] noise = generateNoise(800, 600);
+
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        frame.setPreferredSize(new Dimension(800, 600));
+        frame.add(new JComponent() {
+            @Override
+            protected void paintComponent(Graphics graphics) {
+                super.paintComponent(graphics);
+                for(int x = 0; x < noise.length; x++){
+                    for(int y = 0; y < noise[x].length; y++){
+                        int level = (int)(noise[x][y] * 255);
+                        graphics.setColor(new Color(level, level, level));
+                        graphics.fillRect(x, y, 1, 1);
+                    }
+                }
+            }
+        });
+
+        frame.pack();
+        frame.setVisible(true);
     }
 }
